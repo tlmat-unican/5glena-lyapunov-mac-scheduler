@@ -4,7 +4,7 @@ This repository contains the implementation over ns-3 NR module ([5G-LENA](https
 
 ## Dependencies
 
-It has been tested in `Ubuntu 23.10 (Mantic Minotaur)`.
+It has been tested in `Ubuntu 22.04.3 LTS (Jammy Jellyfish)`.
 
 [Jupyter](https://jupyter.org/install) is used to generate plots.
 ## Project structure
@@ -27,7 +27,7 @@ $ ./ns3 build
 
 ### Running the tests
 
-Run [cttc-nr-traffic-3gpp-xr_neco](https://github.com/tlmat-unican/5glena-lyapunov-mac-scheduler/cttc-nr-traffic-3gpp-xr_neco) setting up the GFBR aware scheduler to test.
+Run [cttc-nr-traffic-3gpp-xr_neco](https://github.com/tlmat-unican/5glena-lyapunov-mac-scheduler/cttc-nr-traffic-3gpp-xr_neco) to test the scheduler.
 
 ```bash
 $ ./ns3 run cttc-nr-traffic-3gpp-xr_neco
@@ -41,7 +41,7 @@ The execution of this scenario generates the following logs:
 [run.ipynb](https://github.com/tlmat-unican/5glena-lyapunov-mac-scheduler/run.ipynb) contains code snippets to reproduce the results shown in the paper.
 
 
-**Disclaimer:** figures in manuscrip are generated with Tikz using the same data.
+**Disclaimer:** figures in manuscript are generated with Tikz using the same data.
 
     
 ## Contact
