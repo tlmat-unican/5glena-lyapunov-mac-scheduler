@@ -47,8 +47,8 @@ The execution of this scenario generates the following logs:
 ## Contact
 
 - [Neco Villegas (villegasn@unican.es)](mailto:villegasn@unican.es)
-- [Ana Larrañaga](ana.larranaga@cttc.cat)
+- [Ana Larrañaga (alarranaga@cttc.es)](mailto:alarranaga@cttc.es)
 - [Luis Diez (diezlf@unican.es)](mailto:diezlf@unican.es)
-- [Katerina Koutlia](kkoutlia@cttc.cat)
-- [Sandra Lagén](slagen@cttc.cat)
+- [Katerina Koutlia (kkoutlia@cttc.es)](mailto:kkoutlia@cttc.es)
+- [Sandra Lagén (slagen@cttc.es)](mailto:slagen@cttc.es)
 - [Ramón Agüero (agueroc@unican.es)](mailto:agueroc@unican.es)
