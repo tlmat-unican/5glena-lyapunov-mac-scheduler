@@ -25,20 +25,6 @@ std::ofstream outputFileG("g.txt");
 std::ofstream outputFileQ("q.txt");
 std::ofstream outputFileAlpha("alpha.txt");
 
-void NrMacSchedulerUeInfoDPP::saveResultsToFile(const std::vector<uint32_t>& simulationResults, std::ofstream& file){
-
-    // Check if the file is open
-    if (!file.is_open()) {
-        std::cerr << "Error opening the file for writing." << std::endl;
-        return;
-    }
-    // Write simulation results to the file
-    for (const auto& result : simulationResults) {
-        file << result << ",";
-    }
-    file << "\n";
-}
-
 void
 NrMacSchedulerUeInfoDPP::UpdateDlTputVirtualQueue(const NrMacSchedulerNs3::FTResources& assigned,
                                            double timeSlot,
@@ -82,37 +68,22 @@ NrMacSchedulerUeInfoDPP::UpdateDlTputVirtualQueue(const NrMacSchedulerNs3::FTRes
 void NrMacSchedulerUeInfoDPP::saveQueuesState(const std::vector<ns3::NrMacSchedulerNs3::UePtrAndBufferReq> ueVector){
     static bool c = true;
     if(c){
-        outputFileG << "time";
-        outputFileQ << "time";
-        for(const auto& ue: ueVector){
-            outputFileG << "\tUE" << ue.first->m_rnti;
-            outputFileQ << "\tUE" << ue.first->m_rnti;   
-        }
-        outputFileG << "\n";
-        outputFileQ << "\n"; 
+        outputFileG << "time\tue\tg\n";
+        outputFileQ << "time\tue\tq\n"; 
     }
     c = false;
-    outputFileG << Simulator::Now().ToDouble (Time::MS);
-    outputFileQ << Simulator::Now().ToDouble (Time::MS);
     for(const auto& ue: ueVector){
-        outputFileG << "\t" << ue.first->m_rnti << "," << std::dynamic_pointer_cast<NrMacSchedulerUeInfoDPP>(ue.first)->m_g;
-        outputFileQ << "\t" <<  ue.first->m_rnti << "," << ue.second;
+        outputFileG << Simulator::Now().ToDouble (Time::MS) << "\t" << ue.first->m_rnti << "\t" << std::dynamic_pointer_cast<NrMacSchedulerUeInfoDPP>(ue.first)->m_g << "\n";
+        outputFileQ << Simulator::Now().ToDouble (Time::MS) << "\t" <<  ue.first->m_rnti << "\t" << ue.second << "\n";
     }
-    outputFileG << "\n";
-    outputFileQ << "\n";
 }
 
 void NrMacSchedulerUeInfoDPP::saveRBGallocation(const std::vector<ns3::NrMacSchedulerNs3::UePtrAndBufferReq> ueVector){
     static bool c = true;
     if(c){
-        outputFileAlpha << "time";
-        // for(const auto& ue: ueVector){
-        //     outputFileAlpha << "\tUE" << ue.first->m_rnti;
-        // }
-        outputFileAlpha << "\tUE\tresources\n";
+        outputFileAlpha << "time\tUE\tresources\n";
     }
     c = false;
-
     for(const auto& ue: ueVector){
         outputFileAlpha << Simulator::Now().ToDouble (Time::MS) << "\t" << ue.first->m_rnti << "\t" << std::dynamic_pointer_cast<NrMacSchedulerUeInfoDPP>(ue.first)->m_dlRBGallocated << "\n";
     }
@@ -133,7 +104,7 @@ void NrMacSchedulerUeInfoDPP::LyapunovDPP(const std::vector<ns3::NrMacSchedulerN
 
     // Parámetros del problema
     int N = ueVector.size();
-    double gamma = 1000.0; // TODO constraint del FH capacity
+    double gamma = std::numeric_limits<double>::infinity(); // TODO constraint FH capacity
     
     /* Crear un objeto de problema LP */
     glp_prob *lp;
@@ -154,50 +125,13 @@ void NrMacSchedulerUeInfoDPP::LyapunovDPP(const std::vector<ns3::NrMacSchedulerN
                                 -amc->CalculateTbSize(uePtrContainer[n-1]->m_dlMcs.at(0), resources)
                                 *(ueVector[n-1].second+uePtrContainer[n-1]->m_g)));
     }
-    /* Añadir filas para las restricciones */
+
+    // Rows for constraints
     glp_add_rows(lp, 2);
     glp_set_row_name(lp, 1, "con1");
     glp_set_row_bnds(lp, 1, GLP_UP, 0.0, resources);
     glp_set_row_name(lp, 2, "con2");
     glp_set_row_bnds(lp, 2, GLP_UP, 0.0, gamma);
-
-    /* Definir la función objetivo */
-    // TODO generalizar
-    // if (N == 1){
-    //     glp_set_obj_name(lp, "obj");
-    //     int ia[1+2], ja[1+2];
-    //     double ar[1+2];
-    //     ia[1]=1, ja[1]=1, ar[1]=1;    // a[1,1] = 1
-    //     ia[2]=2, ja[2]=1, ar[2]=1;    // a[2,1] = 1
-
-    //     glp_load_matrix(lp, 2, ia, ja, ar);
-    // }
-
-    // if (N == 2){
-    //     glp_set_obj_name(lp, "obj");
-    //     int ia[1+4], ja[1+4];
-    //     double ar[1+4];
-    //     ia[1]=1, ja[1]=1, ar[1]=1;    // a[1,1] = 1
-    //     ia[2]=1, ja[2]=2, ar[2]=1;    // a[1,2] = 1
-        
-    //     ia[3]=2, ja[3]=1, ar[3]=1;    // a[2,1] = 1
-    //     ia[4]=2, ja[4]=2, ar[4]=1;    // a[2,2] = 1
-
-    //     glp_load_matrix(lp, 4, ia, ja, ar);
-    // }
-    // if (N == 3){
-    //     glp_set_obj_name(lp, "obj");
-    //     int ia[1+6], ja[1+6];
-    //     double ar[1+6];
-    //     ia[1]=1, ja[1]=1, ar[1]=1;    // a[1,1] = 1
-    //     ia[2]=1, ja[2]=2, ar[2]=1;    // a[1,2] = 1
-    //     ia[3]=1, ja[3]=3, ar[3]=1;    // a[1,3] = 1
-
-    //     ia[4]=2, ja[4]=1, ar[4]=1;    // a[2,1] = 1
-    //     ia[5]=2, ja[5]=2, ar[5]=1;    // a[2,2] = 1
-    //     ia[6]=2, ja[6]=3, ar[6]=1;    // a[2,3] = 1
-    //     glp_load_matrix(lp, 6, ia, ja, ar);
-    // }
 
     glp_set_obj_name(lp, "obj");
 
@@ -219,27 +153,25 @@ void NrMacSchedulerUeInfoDPP::LyapunovDPP(const std::vector<ns3::NrMacSchedulerN
     free(ja);
     free(ar);
 
-    /* Resolver el problema */
+    // Solve problem
     glp_term_out(GLP_OFF);
     glp_simplex(lp, NULL);
     glp_intopt(lp, NULL);
 
-    /* Ver Resultados */
-    //printf("Objective Value: %f\n", glp_get_obj_val(lp));
+    // Solution
+    // printf("Objective Value: %f\n", glp_get_obj_val(lp));
     std::vector<uint32_t> alpha;
 
     for (int n = 1; n <= N; n++) {
         uePtrContainer[n-1]->m_dlRBGallocated = glp_get_col_prim(lp, n);
-        // if(uePtrContainer[n-1]->m_dlRBGallocated > 0) uePtrContainer[n-1]->m_dlRBGallocated-=33;
-        // uePtrContainer[n-1]->m_dlRBGallocated = 17;
         alpha.emplace_back(glp_get_col_prim(lp, n));
         NS_LOG_DEBUG("Sol. UE" << uePtrContainer[n-1]->m_rnti << " = " << uePtrContainer[n-1]->m_dlRBGallocated);
     }
 
-    // Pinta asignacion de RBGs
+    // Print decision
     saveRBGallocation(ueVector);
     
-    // Liberar memoria
+    // Free
     glp_delete_prob(lp);
 }
 

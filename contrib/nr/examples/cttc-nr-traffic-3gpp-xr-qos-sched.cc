@@ -141,9 +141,9 @@ main(int argc, char* argv[])
     uint32_t appDuration = 10000;
     uint32_t appStartTimeMs = 400;
     uint16_t numerology = 0;
-    uint16_t arUeNum = 1;
-    uint16_t vrUeNum = 1;
-    uint16_t cgUeNum = 1;
+    uint16_t arUeNum = 0;
+    uint16_t vrUeNum = 4;
+    uint16_t cgUeNum = 4;
     double centralFrequency = 4e9;
     double bandwidth = 10e6;
     double txPower = 41;
@@ -155,8 +155,8 @@ main(int argc, char* argv[])
     bool enableVirtualQueue = true;
 
     // MAC scheduler type: RR, PF, MR, Qos, DPP
-    std::string schedulerType = "RR";
-    bool enableOfdma = false;
+    std::string schedulerType = "DPP";
+    bool enableOfdma = true;
 
     bool logging = false;
 

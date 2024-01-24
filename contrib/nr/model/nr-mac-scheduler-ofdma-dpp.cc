@@ -234,19 +234,12 @@ NrMacSchedulerOfdmaDPP::saveTBS(
     static bool c = true;
     if (c)
     {
-        outputFileTBS << "time";
-        for (const auto& ue : ueVector)
-        {
-            outputFileTBS << "\tUE" << ue.first->m_rnti;
-        }
-        outputFileTBS << "\n";
+        outputFileTBS << "time\tue\ttbs\n";
     }
     c = false;
-    outputFileTBS << Simulator::Now().ToDouble(Time::MS);
-    
     for (const auto& ue : ueVector)
     {
-        outputFileTBS << Simulator::Now().ToDouble(Time::MS) << "\t" << ue.first->m_dlTbSize.at(0) << "\n";
+        outputFileTBS << Simulator::Now().ToDouble(Time::MS) << "\t" <<  ue.first->m_rnti << "\t" << ue.first->m_dlTbSize.at(0) << "\n";
     }
 }
 
