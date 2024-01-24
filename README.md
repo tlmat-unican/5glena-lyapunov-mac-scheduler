@@ -31,7 +31,7 @@ $ ./ns3 build
 Run [cttc-nr-traffic-3gpp-xr_neco](https://github.com/tlmat-unican/5glena-lyapunov-mac-scheduler/cttc-nr-traffic-3gpp-xr_neco) to test the scheduler.
 
 ```bash
-$ ./ns3 run cttc-nr-traffic-3gpp-xr_neco
+$ ./ns3 run cttc-nr-traffic-3gpp-xr-qos-sched
 ```
 
 The execution of this scenario generates the following logs:
