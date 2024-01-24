@@ -11,7 +11,7 @@ It has been tested in `Ubuntu 22.04.3 LTS (Jammy Jellyfish)`.
 
 The project contains a copy of ns-3 that includes `5G-LENA v2.5`.
 
-The [contrib/examples](https://github.com/tlmat-unican/5glena-lyapunov-mac-scheduler/contrib/examples) folder contains an example, [cttc-nr-traffic-3gpp-xr_neco](https://github.com/tlmat-unican/5glena-lyapunov-mac-scheduler/cttc-nr-traffic-3gpp-xr_neco), to simulate XR traffic. This example allows to configurate the MAC scheduler used.
+The [contrib/examples](https://github.com/tlmat-unican/5glena-lyapunov-mac-scheduler/blob/main/contrib/nr/examples) folder contains an example, [cttc-nr-traffic-3gpp-xr-qos-sched](https://github.com/tlmat-unican/5glena-lyapunov-mac-scheduler/blob/main/contrib/nr/examples/cttc-nr-traffic-3gpp-xr-qos-sched.cc), to simulate XR traffic. This example allows to configurate the MAC scheduler used.
 
 [run.ipynb](https://github.com/tlmat-unican/5glena-lyapunov-mac-scheduler/run.ipynb) is a Jupyter notebook to automate experiment execution and to ease the generation of corresponding result figures.
 
@@ -28,7 +28,7 @@ $ ./ns3 build
 
 ### Running the tests
 
-Run [cttc-nr-traffic-3gpp-xr_neco](https://github.com/tlmat-unican/5glena-lyapunov-mac-scheduler/cttc-nr-traffic-3gpp-xr_neco) to test the scheduler.
+Run [cttc-nr-traffic-3gpp-xr-qos-sched]([https://github.com/tlmat-unican/5glena-lyapunov-mac-scheduler/cttc-nr-traffic-3gpp-xr_neco](https://github.com/tlmat-unican/5glena-lyapunov-mac-scheduler/blob/main/contrib/nr/examples/cttc-nr-traffic-3gpp-xr-qos-sched.cc)) to test the scheduler.
 
 ```bash
 $ ./ns3 run cttc-nr-traffic-3gpp-xr-qos-sched
