@@ -29,6 +29,7 @@ set(base_examples
     cttc-nr-multi-flow-qos-sched-dpp
     cttc-nr-multi-flow-qos-sched-dpp_proof
     cttc-nr-traffic-3gpp-xr-qos-sched
+    nr-sched-example
 )
 foreach(
   example

@@ -1,8 +1,10 @@
+sim_results/*
 sim_alpha/*
 sim_thput/*
-res.txt
-alpha.txt
-tbs.txt
-q.txt
-g.txt
+cmake-cache/
+build/
+*.csv
+*.txt
+*.png
+
 
